@@ -5,20 +5,29 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private SliderAdapter adapter;
     private Button nextButton;
-    private int[] images = {R.drawable.image1, R.drawable.image4, R.drawable.image5, R.drawable.image6, R.drawable.image7, R.drawable.image8, R.drawable.islamly};
+    private int[] images = {R.drawable.image1, R.drawable.image2, R.drawable.image3, R.drawable.image4, R.drawable.image5, R.drawable.image6, R.drawable.image7, R.drawable.image8, R.drawable.image9, R.drawable.image10, R.drawable.image11, R.drawable.image12, R.drawable.image13, R.drawable.image14,  R.drawable.islamly};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        LayoutInflater inflater = getLayoutInflater();
+        View toastview = inflater.inflate(R.layout.customtoast, (ViewGroup) findViewById(R.id.RootLayout));
+        Toast toast = new Toast(getApplicationContext());
+        toast.setView(toastview);
+        toast.show();
 
         MyReceiver.setAlarm(this);
 
