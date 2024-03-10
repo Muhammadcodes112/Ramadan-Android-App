@@ -15,22 +15,16 @@ import android.os.Build;
 import android.os.SystemClock;
 import android.os.Vibrator;
 
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
 import java.util.Calendar;
+
 
 public class MyReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
-        // Create notification channel (for Android 8.0 and above)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel("default",
-                    "Default Channel",
-                    NotificationManager.IMPORTANCE_DEFAULT);
-            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
-
 
         // VIBRATION
         Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
@@ -38,17 +32,14 @@ public class MyReceiver extends BroadcastReceiver {
             vibrator.vibrate(500);
         }
 
-        // Creating a notification
-        Notification.Builder builder = null;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            builder = new Notification.Builder(context, "default")
-                    .setContentTitle("Ramadan")
-                    .setContentText("Dear Muslim, Always be Conscious of Allah")
-                    .setSmallIcon(R.drawable.islamly);
-        }
+        // Create notification
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "default")
+                .setContentTitle("Ramadan")
+                .setContentText("Dear Muslim, Always be Conscious of Allah")
+                .setSmallIcon(R.drawable.islamly);
 
-        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.notify(0, builder.build());
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+        notificationManager.notify(0, builder.build());
 
         // Playing the notification sounds
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -56,6 +47,7 @@ public class MyReceiver extends BroadcastReceiver {
         r.play();
     }
 
+    // This method is not called anywhere in your code, so make sure to call it to set up the alarm
     public static void setAlarm(Context context) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
